@@ -2,6 +2,7 @@ package com.cointracker.cointrackertakehome.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 import java.sql.Timestamp;
@@ -9,7 +10,7 @@ import java.sql.Timestamp;
 @Entity
 public class BitcoinAddress {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String address;
