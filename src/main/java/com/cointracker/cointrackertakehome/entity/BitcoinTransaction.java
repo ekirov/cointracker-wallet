@@ -22,6 +22,8 @@ public class BitcoinTransaction {
 
     private LocalDateTime timestamp;
 
+    private LocalDateTime createdAt;
+
     public Long getId() {
         return id;
     }
@@ -54,6 +56,13 @@ public class BitcoinTransaction {
         this.timestamp = timestamp;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
     public BitcoinTransaction(){
 
     }
