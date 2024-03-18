@@ -26,4 +26,9 @@ public class BitcoinWalletServiceImpl implements BitcoinWalletService {
     public BigDecimal getBalance(String address) {
         return null;
     }
+
+    @Override
+    public void synchronizeTransactions() {
+
+    }
 }

@@ -43,4 +43,10 @@ public class BitcoinWalletController {
         BigDecimal balance = bitcoinWalletService.getBalance(address);
         return ResponseEntity.ok().body(balance);
     }
+
+    @PostMapping("/synchronize")
+    public ResponseEntity<?> synchronizeTransactions() {
+        bitcoinWalletService.synchronizeTransactions();
+        return ResponseEntity.ok().body("Transactions have been synchronized.");
+    }
 }
