@@ -5,7 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 public class BitcoinAddress {
@@ -15,13 +15,13 @@ public class BitcoinAddress {
 
     private String address;
 
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
 
-    public Timestamp getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
     public String getAddress() {
