@@ -8,4 +8,6 @@ public interface BitcoinWalletService {
     void removeAddress(String address);
     List<String> getTransactions(String address);
     BigDecimal getBalance(String address);
+
+    void synchronizeTransactions();
 }
