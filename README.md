@@ -12,6 +12,23 @@ The Bitcoin Wallet Application is a Java-based Spring Boot application designed 
 - Retrieve Balances: Get the current balance for a specific Bitcoin address.
 - Transaction Details: Access detailed transaction history.
 
+## Assumptions Made
+- Transactions will only be updated periodically and/or manually via the Blockchain api.
+- Retrieving balances and transactions will display them for individual addresses only in the wallet.
+- This is a prototype, so not all features are fully implemented. For example
+- - I do not take into account the fact that the blockchain api only returns by default a set amount of transactions. 
+- - I assume that deletes will be hard-deletes and not soft-deletes.
+- - I have not implemented advanced system design such as caching, load-balancing, or containers considering the time restrictions and prototype nature.
+- - My main skills include api specifications, backend application services, and db integration, so I did not create a UI.
+
+
+## Architecture Decisions
+- UI: I am mainly focused on the backend, but I use Postman to interact with the backend through the API calls.
+- API Layer: Spring Boot Framework is the central node to handle the API requests/responses. My endpoints are restful and defined for managing all necessary requirements.
+- Service Layer: Implements the business logic for all the endpoints, including a specific service for communicating with the Blockchain.com api to fetch real time data
+- Data Layer: Data is stored locally in a PostreSql database with two tables representing the addresses in the wallet and the transactions associated with the addresses. Repositories facilitate communication between the application server and DB.
+- Scheduling and Background tasks: It is implemented, but commented out to run periodically if needed using Spring's @Scheduled annotation.
+- Unit tests: There are unit tests for the controller to show that testing can be done on a stricter basis.
 
 ## Getting Started
 
