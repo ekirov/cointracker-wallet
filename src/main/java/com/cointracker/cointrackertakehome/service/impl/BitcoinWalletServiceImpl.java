@@ -1,9 +1,8 @@
 package com.cointracker.cointrackertakehome.service.impl;
 
-import com.cointracker.cointrackertakehome.dto.AddressRequest;
+import com.cointracker.cointrackertakehome.dto.*;
 import com.cointracker.cointrackertakehome.entity.BitcoinAddress;
 import com.cointracker.cointrackertakehome.entity.BitcoinTransaction;
-import com.cointracker.cointrackertakehome.dto.TransactionData;
 import com.cointracker.cointrackertakehome.repository.BitcoinAddressRepository;
 import com.cointracker.cointrackertakehome.repository.BitcoinTransactionRepository;
 import com.cointracker.cointrackertakehome.service.BitcoinWalletService;
@@ -16,7 +15,9 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BitcoinWalletServiceImpl implements BitcoinWalletService {
@@ -56,22 +57,48 @@ public class BitcoinWalletServiceImpl implements BitcoinWalletService {
     }
 
     @Override
-    public List<BitcoinTransaction> getTransactions(String address) {
+    public TransactionResponse getTransactions(String address) {
         //TODO: wrap return entity
         if(this.bitcoinAddressRepository.findByAddress(address).orElse(null) != null){
-            return bitcoinTransactionRepository.findByAddress(address);
+            List<BitcoinTransaction> transactions =  bitcoinTransactionRepository.findByAddress(address);
+            return convertTransactionsToDTO(transactions, address);
         } else {
             //address does not exist
         }
 
+
+
         return null;
     }
 
+    private TransactionResponse convertTransactionsToDTO(List<BitcoinTransaction> transactions, String address) {
+        TransactionResponse dto = new TransactionResponse();
+        dto.setAddress(address);
+
+        // Convert the list of BitcoinTransaction entities to a list of TransactionDTO.Transaction
+        List<TransactionResponse.Transaction> transactionList = transactions.stream()
+                .map(this::convertToTransactionDto)
+                .collect(Collectors.toList());
+
+        // Set the converted list on the TransactionDTO
+        dto.setTransactions(transactionList);
+        return dto;
+    }
+
+    private TransactionResponse.Transaction convertToTransactionDto(BitcoinTransaction entity) {
+        TransactionResponse.Transaction transaction = new TransactionResponse.Transaction();
+        transaction.setHashId(entity.getHashId());
+        transaction.setFee(entity.getFee());
+        transaction.setAmount(entity.getAmount());
+        transaction.setTransactionTime(entity.getTransactionTime());
+        return transaction;
+    }
+
     @Override
-    public BigDecimal getBalance(String address) {
+    public BalanceResponse getBalance(String address) {
         BitcoinAddress bitcoinAddress = this.bitcoinAddressRepository.findByAddress(address).orElse(null);
         if(bitcoinAddress != null){
-            return bitcoinAddress.getBalance();
+            return new BalanceResponse(address, bitcoinAddress.getBalance());
         } else {
             //address does not exist
         }
@@ -90,6 +117,16 @@ public class BitcoinWalletServiceImpl implements BitcoinWalletService {
                 }
             }
         }
+    }
+
+    @Override
+    public List<AddressResponse> getWallet() {
+        List<BitcoinAddress> bitcoinAddresses = this.bitcoinAddressRepository.findAll();
+        List<AddressResponse> response = new ArrayList<>();
+        for(BitcoinAddress bitcoinAddress : bitcoinAddresses){
+            response.add(new AddressResponse(bitcoinAddress.getAddress(), bitcoinAddress.getBalance(), bitcoinAddress.getLastSynchronized()));
+        }
+        return response;
     }
 
     private void parseAndPersistTransactionData(TransactionData response, BitcoinAddress bca){

@@ -1,6 +1,9 @@
 package com.cointracker.cointrackertakehome.controller;
 
 import com.cointracker.cointrackertakehome.dto.AddressRequest;
+import com.cointracker.cointrackertakehome.dto.AddressResponse;
+import com.cointracker.cointrackertakehome.dto.BalanceResponse;
+import com.cointracker.cointrackertakehome.dto.TransactionResponse;
 import com.cointracker.cointrackertakehome.entity.BitcoinTransaction;
 import com.cointracker.cointrackertakehome.service.BitcoinWalletService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,12 @@ public class BitcoinWalletController {
         this.bitcoinWalletService = bitcoinWalletService;
     }
 
+    @GetMapping("")
+    public ResponseEntity<?> getWallet(){
+        List<AddressResponse> response = bitcoinWalletService.getWallet();
+        return ResponseEntity.ok().body(response);
+    }
+
     @PostMapping("/address/add")
     public ResponseEntity<?> addAddress(@RequestBody AddressRequest addressRequest){
         bitcoinWalletService.addAddress(addressRequest);
@@ -34,16 +43,17 @@ public class BitcoinWalletController {
         return ResponseEntity.ok().body("address removed");
     }
 
+
     @GetMapping("/address/{address}/transactions")
     public ResponseEntity<?> getTransactions(@PathVariable String address){
-        List<BitcoinTransaction> transactions = bitcoinWalletService.getTransactions(address);
-        return ResponseEntity.ok().body(transactions);
+        TransactionResponse response = bitcoinWalletService.getTransactions(address);
+        return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/address/{address}/balance")
     public ResponseEntity<?> getBalance(@PathVariable String address){
-        BigDecimal balance = bitcoinWalletService.getBalance(address);
-        return ResponseEntity.ok().body(balance);
+        BalanceResponse response = bitcoinWalletService.getBalance(address);
+        return ResponseEntity.ok().body(response);
     }
 
     @PostMapping("/synchronize")
