@@ -60,3 +60,8 @@ The application will start and be accessible at `http://localhost:8080`.
 | GET | /api/bitcoin-wallet/address/{address}/transactions | Get transactions for a specific address. |
 | GET | /api/bitcoin-wallet/address/{address}/balance | Get the current balance for a specific address. |
 | POST | /api/bitcoin-wallet/synchronize | Manually trigger transaction synchronization. |
+
+### External API Endpoint Used
+Resource: https://www.blockchain.com/explorer/api/blockchain_api
+
+API: https://blockchain.info/rawaddr/$bitcoin_address
