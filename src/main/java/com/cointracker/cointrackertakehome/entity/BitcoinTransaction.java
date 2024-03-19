@@ -1,10 +1,7 @@
 package com.cointracker.cointrackertakehome.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -71,5 +68,10 @@ public class BitcoinTransaction {
         this.address = address;
         this.amount = amount;
         this.timestamp = timestamp;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
     }
 }

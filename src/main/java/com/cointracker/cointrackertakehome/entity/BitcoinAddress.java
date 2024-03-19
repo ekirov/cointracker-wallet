@@ -15,8 +15,6 @@ public class BitcoinAddress {
 
     private LocalDateTime createdAt;
 
-
-
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -53,5 +51,10 @@ public class BitcoinAddress {
                 ", address='" + address + '\'' +
                 ", createdAt=" + createdAt +
                 '}';
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
     }
 }
