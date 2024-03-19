@@ -20,6 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Service implementation for managing Bitcoin wallet operations.
+ * <p>
+ * This service handles the addition and removal of Bitcoin addresses, synchronization of transactions,
+ * retrieval of balance and transaction details, and offers a consolidated view of the wallet.
+ */
 @Service
 public class BitcoinWalletServiceImpl implements BitcoinWalletService {
     @Autowired
@@ -29,6 +35,11 @@ public class BitcoinWalletServiceImpl implements BitcoinWalletService {
     @Autowired
     private BlockchainExplorerService blockchainExplorerService;
 
+    /**
+     * Adds a new Bitcoin address to be tracked.
+     *
+     * @param addressRequest The request containing the Bitcoin address to add.
+     */
     @Override
     public void addAddress(AddressRequest addressRequest) {
         if(addressRequest == null){
@@ -42,6 +53,11 @@ public class BitcoinWalletServiceImpl implements BitcoinWalletService {
         }
     }
 
+    /**
+     * Removes a tracked Bitcoin address and its associated transactions.
+     *
+     * @param address The Bitcoin address to remove.
+     */
     @Override
     public void removeAddress(String address) {
         BitcoinAddress bitcoinAddress = this.bitcoinAddressRepository.findByAddress(address).orElse(null);
@@ -57,6 +73,12 @@ public class BitcoinWalletServiceImpl implements BitcoinWalletService {
 
     }
 
+    /**
+     * Retrieves transaction details for a specific Bitcoin address.
+     *
+     * @param address The Bitcoin address for which transactions are requested.
+     * @return A {@link TransactionResponse} containing the transaction details.
+     */
     @Override
     public TransactionResponse getTransactions(String address) {
         //TODO: wrap return entity
@@ -72,20 +94,31 @@ public class BitcoinWalletServiceImpl implements BitcoinWalletService {
         return null;
     }
 
+    /**
+     * Converts a list of {@link BitcoinTransaction} entities to a {@link TransactionResponse}.
+     *
+     * @param transactions The list of transactions to convert.
+     * @param address      The Bitcoin address associated with the transactions.
+     * @return The {@link TransactionResponse} containing the converted transactions.
+     */
     private TransactionResponse convertTransactionsToDTO(List<BitcoinTransaction> transactions, String address) {
         TransactionResponse dto = new TransactionResponse();
         dto.setAddress(address);
 
-        // Convert the list of BitcoinTransaction entities to a list of TransactionDTO.Transaction
         List<TransactionResponse.Transaction> transactionList = transactions.stream()
                 .map(this::convertToTransactionDto)
                 .collect(Collectors.toList());
 
-        // Set the converted list on the TransactionDTO
         dto.setTransactions(transactionList);
         return dto;
     }
 
+    /**
+     * Converts a single {@link BitcoinTransaction} entity to a {@link TransactionResponse.Transaction} DTO.
+     *
+     * @param entity The transaction entity to convert.
+     * @return The converted {@link TransactionResponse.Transaction} DTO.
+     */
     private TransactionResponse.Transaction convertToTransactionDto(BitcoinTransaction entity) {
         TransactionResponse.Transaction transaction = new TransactionResponse.Transaction();
         transaction.setHashId(entity.getHashId());
@@ -95,6 +128,13 @@ public class BitcoinWalletServiceImpl implements BitcoinWalletService {
         return transaction;
     }
 
+
+    /**
+     * Retrieves the balance for a specific Bitcoin address.
+     *
+     * @param address The Bitcoin address for which the balance is requested.
+     * @return A {@link BalanceResponse} containing the balance.
+     */
     @Override
     public BalanceResponse getBalance(String address) {
         BitcoinAddress bitcoinAddress = this.bitcoinAddressRepository.findByAddress(address).orElse(null);
@@ -107,6 +147,11 @@ public class BitcoinWalletServiceImpl implements BitcoinWalletService {
         return null;
     }
 
+    /**
+     * Periodically/manually synchronizes transactions for all tracked Bitcoin addresses.
+     * <p>
+     * This method can be scheduled to run at fixed intervals to ensure the wallet data is up-to-date.
+     */
     //@Scheduled(fixedRate = 300000)
     @Override
     public void synchronizeTransactions() {
@@ -121,16 +166,14 @@ public class BitcoinWalletServiceImpl implements BitcoinWalletService {
         }
     }
 
-    @Override
-    public List<AddressResponse> getWallet() {
-        List<BitcoinAddress> bitcoinAddresses = this.bitcoinAddressRepository.findAll();
-        List<AddressResponse> response = new ArrayList<>();
-        for(BitcoinAddress bitcoinAddress : bitcoinAddresses){
-            response.add(new AddressResponse(bitcoinAddress.getAddress(), bitcoinAddress.getBalance(), bitcoinAddress.getLastSynchronized()));
-        }
-        return response;
-    }
 
+
+    /**
+     * Parses the transaction data fetched from the blockchain explorer and persists it to the database.
+     *
+     * @param response     The transaction data fetched from the blockchain explorer.
+     * @param bca          The {@link BitcoinAddress} entity associated with the transactions.
+     */
     private void parseAndPersistTransactionData(TransactionData response, BitcoinAddress bca){
         LocalDateTime lastSynchronized = bca.getLastSynchronized();
         bca.setLastSynchronized(LocalDateTime.now());
@@ -152,6 +195,21 @@ public class BitcoinWalletServiceImpl implements BitcoinWalletService {
                 //optimization can be done here
             }
         }
+    }
+
+    /**
+     * Retrieves a consolidated view of the wallet, including all tracked Bitcoin addresses and their information.
+     *
+     * @return A list of {@link AddressResponse} containing details of each tracked Bitcoin address.
+     */
+    @Override
+    public List<AddressResponse> getWallet() {
+        List<BitcoinAddress> bitcoinAddresses = this.bitcoinAddressRepository.findAll();
+        List<AddressResponse> response = new ArrayList<>();
+        for(BitcoinAddress bitcoinAddress : bitcoinAddresses){
+            response.add(new AddressResponse(bitcoinAddress.getAddress(), bitcoinAddress.getBalance(), bitcoinAddress.getLastSynchronized()));
+        }
+        return response;
     }
 
 
