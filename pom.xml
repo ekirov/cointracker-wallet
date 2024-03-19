@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.cointracker</groupId>
     <artifactId>cointracker-takehome</artifactId>
-    <version>0.1.5</version>
+    <version>0.1.6</version>
     <name>cointracker-takehome</name>
     <description>cointracker-takehome</description>
     <properties>
