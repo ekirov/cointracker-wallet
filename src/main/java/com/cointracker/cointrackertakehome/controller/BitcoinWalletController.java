@@ -34,13 +34,13 @@ public class BitcoinWalletController {
     @PostMapping("/address/add")
     public ResponseEntity<?> addAddress(@RequestBody AddressRequest addressRequest){
         bitcoinWalletService.addAddress(addressRequest);
-        return ResponseEntity.ok().body("address added");
+        return ResponseEntity.ok().body("address "+addressRequest.getAddress()+" added");
     }
 
     @DeleteMapping("/address/{address}/remove")
     public ResponseEntity<?> removeAddress(@PathVariable String address){
         bitcoinWalletService.removeAddress(address);
-        return ResponseEntity.ok().body("address removed");
+        return ResponseEntity.ok().body("address "+address +" removed");
     }
 
 
