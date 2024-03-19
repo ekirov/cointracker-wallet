@@ -50,6 +50,7 @@ public class BitcoinWalletServiceImpl implements BitcoinWalletService {
             bitcoinAddressRepository.save(bitcoinAddress);
         } catch (DataIntegrityViolationException e) {
             // Handle the exception, e.g., log it or throw a custom exception
+            throw new RuntimeException("address "+addressRequest.getAddress()+" already exists in wallet");
         }
     }
 
