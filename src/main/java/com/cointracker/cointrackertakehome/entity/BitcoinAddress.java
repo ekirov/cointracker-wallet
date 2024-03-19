@@ -18,6 +18,8 @@ public class BitcoinAddress {
 
     private LocalDateTime createdAt;
 
+    private LocalDateTime lastSynchronized;
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -46,6 +48,14 @@ public class BitcoinAddress {
 
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
+    }
+
+    public LocalDateTime getLastSynchronized() {
+        return lastSynchronized;
+    }
+
+    public void setLastSynchronized(LocalDateTime lastSynchronized) {
+        this.lastSynchronized = lastSynchronized;
     }
 
     public BitcoinAddress() {
