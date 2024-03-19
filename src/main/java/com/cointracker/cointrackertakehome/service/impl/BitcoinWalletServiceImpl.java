@@ -46,13 +46,20 @@ public class BitcoinWalletServiceImpl implements BitcoinWalletService {
     }
 
     @Override
-    public List<String> getTransactions(String address) {
+    public List<BitcoinTransaction> getTransactions(String address) {
+        //TODO: wrap return entity
+        if(this.bitcoinAddressRepository.findByAddress(address).orElse(null) != null){
+            return bitcoinTransactionRepository.findByAddress(address);
+        } else {
+            //address does not exist
+        }
+
         return null;
     }
 
     @Override
     public BigDecimal getBalance(String address) {
-        return null;
+
     }
 
     @Override

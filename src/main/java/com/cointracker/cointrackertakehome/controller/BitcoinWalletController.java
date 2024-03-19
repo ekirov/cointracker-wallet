@@ -1,5 +1,6 @@
 package com.cointracker.cointrackertakehome.controller;
 
+import com.cointracker.cointrackertakehome.entity.BitcoinTransaction;
 import com.cointracker.cointrackertakehome.service.BitcoinWalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ public class BitcoinWalletController {
 
     @GetMapping("/address/transactions")
     public ResponseEntity<?> getTransactions(@PathVariable String address){
-        List<String> transactions = bitcoinWalletService.getTransactions(address);
+        List<BitcoinTransaction> transactions = bitcoinWalletService.getTransactions(address);
         return ResponseEntity.ok().body(transactions);
     }
 
