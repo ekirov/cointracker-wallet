@@ -9,6 +9,7 @@ import com.cointracker.cointrackertakehome.service.BitcoinWalletService;
 import com.cointracker.cointrackertakehome.service.BlockchainExplorerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -106,6 +107,7 @@ public class BitcoinWalletServiceImpl implements BitcoinWalletService {
         return null;
     }
 
+    //@Scheduled(fixedRate = 300000)
     @Override
     public void synchronizeTransactions() {
         List<BitcoinAddress> bitcoinAddresses = this.bitcoinAddressRepository.findAll();
