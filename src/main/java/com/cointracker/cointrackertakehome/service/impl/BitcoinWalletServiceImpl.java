@@ -59,7 +59,14 @@ public class BitcoinWalletServiceImpl implements BitcoinWalletService {
 
     @Override
     public BigDecimal getBalance(String address) {
+        BitcoinAddress bitcoinAddress = this.bitcoinAddressRepository.findByAddress(address).orElse(null);
+        if(bitcoinAddress != null){
+            return bitcoinAddress.getBalance();
+        } else {
+            //address does not exist
+        }
 
+        return null;
     }
 
     @Override

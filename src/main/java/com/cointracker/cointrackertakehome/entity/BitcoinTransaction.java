@@ -15,6 +15,14 @@ public class BitcoinTransaction {
 
     private String address;
 
+    private String toAddress;
+
+    private String fromAddress;
+
+    private String hashId;
+
+    private BigDecimal fee;
+
     private BigDecimal amount;
 
     private LocalDateTime timestamp;
@@ -60,6 +68,39 @@ public class BitcoinTransaction {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
+
+    public String getToAddress() {
+        return toAddress;
+    }
+
+    public void setToAddress(String toAddress) {
+        this.toAddress = toAddress;
+    }
+
+    public String getFromAddress() {
+        return fromAddress;
+    }
+
+    public void setFromAddress(String fromAddress) {
+        this.fromAddress = fromAddress;
+    }
+
+    public String getHashId() {
+        return hashId;
+    }
+
+    public void setHashId(String hashId) {
+        this.hashId = hashId;
+    }
+
+    public BigDecimal getFee() {
+        return fee;
+    }
+
+    public void setFee(BigDecimal fee) {
+        this.fee = fee;
+    }
+
     public BitcoinTransaction(){
 
     }

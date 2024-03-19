@@ -2,6 +2,7 @@ package com.cointracker.cointrackertakehome.entity;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,6 +13,8 @@ public class BitcoinAddress {
 
     @Column(unique = true)
     private String address;
+
+    private BigDecimal balance;
 
     private LocalDateTime createdAt;
 
@@ -35,6 +38,14 @@ public class BitcoinAddress {
 
     public Long getId() {
         return id;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
     }
 
     public BitcoinAddress() {
