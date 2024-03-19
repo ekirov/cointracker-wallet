@@ -50,6 +50,16 @@ public class TransactionResponse {
         public void setTransactionTime(LocalDateTime transactionTime) {
             this.transactionTime = transactionTime;
         }
+
+        public Transaction() {
+        }
+
+        public Transaction(String hashId, BigDecimal fee, BigDecimal amount, LocalDateTime transactionTime) {
+            this.hashId = hashId;
+            this.fee = fee;
+            this.amount = amount;
+            this.transactionTime = transactionTime;
+        }
     }
 
     public String getAddress() {
@@ -65,6 +75,14 @@ public class TransactionResponse {
     }
 
     public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
+    }
+
+    public TransactionResponse() {
+    }
+
+    public TransactionResponse(String address, List<Transaction> transactions) {
+        this.address = address;
         this.transactions = transactions;
     }
 }
