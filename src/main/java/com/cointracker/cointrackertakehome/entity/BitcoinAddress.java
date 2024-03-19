@@ -1,9 +1,6 @@
 package com.cointracker.cointrackertakehome.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
@@ -13,9 +10,12 @@ public class BitcoinAddress {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String address;
 
     private LocalDateTime createdAt;
+
+
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
@@ -37,6 +37,13 @@ public class BitcoinAddress {
 
     public Long getId() {
         return id;
+    }
+
+    public BitcoinAddress() {
+
+    }
+    public BitcoinAddress(String address) {
+        this.address = address;
     }
 
     @Override

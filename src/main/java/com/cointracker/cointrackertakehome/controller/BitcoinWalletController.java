@@ -26,7 +26,7 @@ public class BitcoinWalletController {
         return ResponseEntity.ok().body("address added");
     }
 
-    @PostMapping("/address/remove")
+    @DeleteMapping("/address/remove")
     public ResponseEntity<?> removeAddress(@RequestBody String address){
         bitcoinWalletService.removeAddress(address);
         return ResponseEntity.ok().body("address removed");
