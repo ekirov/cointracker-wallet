@@ -17,15 +17,16 @@ The Bitcoin Wallet Application is a Java-based Spring Boot application designed 
 
 ### Prerequisites
 
-- Java JDK 11 or later
+- Java JDK
 - Maven
+- PostgreSql
 
 ### Installation
 
 1. Clone the repository:
    ```bash
-   git clone https://example.com/bitcoin-wallet-app.git
-   cd bitcoin-wallet-app
+   git clone https://github.com/ekirov/cointracker-wallet.git
+   cd cointracker-takehome
 
 2. Build the project:
    ```bash
@@ -37,6 +38,9 @@ Edit `src/main/resources/application.properties` to set your database connection
    spring.datasource.url= YourDatabaseURL
    spring.datasource.username= YourDatabaseUsername
    spring.datasource.password= YourDatabasePassword
+   spring.datasource.driver-class-name=org.postgresql.Driver
+   spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect
+   spring.jpa.hibernate.ddl-auto=update
 
 4. Run the application:
    ```bash
