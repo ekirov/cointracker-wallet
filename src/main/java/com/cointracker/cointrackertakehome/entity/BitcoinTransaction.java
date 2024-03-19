@@ -6,6 +6,15 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * Entity representing a Bitcoin transaction.
+ * <p>
+ * Stores details of individual transactions associated with Bitcoin addresses,
+ * including transaction hash, fees, amounts, and timestamps.
+ */
+@Table(name = "bitcoin_transaction", indexes = {
+        @Index(name = "idx_address", columnList = "address")
+})
 @Entity
 public class BitcoinTransaction {
 
